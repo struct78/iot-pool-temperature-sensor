@@ -1,0 +1,23 @@
+{
+  "hosted-zone:account=092642391444:domainName=canwegointhepool.com:region=ap-southeast-2": {
+    "Id": "/hostedzone/Z0850043FK0V99BWL3PP",
+    "Name": "canwegointhepool.com."
+  },
+  "hosted-zone:account=092642391444:domainName=canwegointhepool.com:region=us-east-1": {
+    "Id": "/hostedzone/Z0850043FK0V99BWL3PP",
+    "Name": "canwegointhepool.com."
+  },
+  "availability-zones:account=092642391444:region=ap-southeast-2": [
+    "ap-southeast-2a",
+    "ap-southeast-2b",
+    "ap-southeast-2c"
+  ],
+  "availability-zones:account=092642391444:region=us-east-1": [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+    "us-east-1d",
+    "us-east-1e",
+    "us-east-1f"
+  ]
+}
