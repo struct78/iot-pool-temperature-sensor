@@ -81,6 +81,7 @@ const char WIFI_SSID[] = "network";
 const char WIFI_PASSWORD[] = "password";
 const char API_GATEWAY_ENDPOINT[] = "api.{YOUR_DOMAIN}";
 const int API_GATEWAY_PORT = 443;
+const char API_KEY[] = "abc1234"; # Retrieve this value from Secrets Manager
 ```
 
 Connect the Arduino to your computer and then deploy via the Arduino IDE.
