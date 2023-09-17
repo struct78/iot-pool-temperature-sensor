@@ -19,9 +19,9 @@ jobs:
           path: |
             ./node_modules
 
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-app-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-
+            ${{ runner.os }}-app-
 
       - name: build:app
         run: |
@@ -34,6 +34,22 @@ jobs:
           name: public
           path: ./app/public
 
+      - name: prepare:infrastructure
+        run: |
+          cd infrastructure
+          npm install
+
+      - name: cache:infrastructure
+        uses: actions/cache@v2
+        id: infrastructure-cache
+        with:
+          path: |
+            ./node_modules
+
+          key: ${{ runner.os }}-infrastructure-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-infrastructure-
+
       - name: deploy:cdk:infrastructure
         uses: youyo/aws-cdk-github-actions@v2
         with:
@@ -45,4 +61,3 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "ap-southeast-1"
