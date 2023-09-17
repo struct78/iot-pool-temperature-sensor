@@ -58,7 +58,7 @@ jobs:
         uses: youyo/aws-cdk-github-actions@v2
         with:
           cdk_subcommand: "deploy"
-          cdk_stack: "infrastructure"
+          cdk_stack: "temperature-infrastructure-stack"
           cdk_args: "--require-approval never"
           actions_comment: false
           working_dir: "infrastructure"
