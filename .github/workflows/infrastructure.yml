@@ -23,6 +23,11 @@ jobs:
           name: public
           path: ./app/public
 
+
+      - name: prepare:infrastructure
+        run: |
+          cd infrastructure
+
       - name: deploy:cdk:infrastructure
         uses: youyo/aws-cdk-github-actions@v2
         with:
