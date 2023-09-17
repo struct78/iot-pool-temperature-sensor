@@ -42,6 +42,7 @@ jobs:
           npm install
           cd ../../lambda/write
           npm install
+          mkdir ~/.aws
           touch ~/.aws/credentials
 
       - name: cache:infrastructure
