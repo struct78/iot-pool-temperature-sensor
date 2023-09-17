@@ -38,6 +38,10 @@ jobs:
         run: |
           cd infrastructure
           npm install
+          cd lambda/read
+          npm install
+          cd ../../lambda/write
+          npm install
 
       - name: cache:infrastructure
         uses: actions/cache@v2
