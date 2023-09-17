@@ -1,7 +1,7 @@
 on: [push]
 
 jobs:
-  aws_cdk:
+  prepare:
     runs-on: ubuntu-latest
     steps:
       - name: pre:checkout
@@ -10,7 +10,10 @@ jobs:
         run: |
           cd app
           npm install
-
+  
+  build:
+    runs-on: ubuntu-latest
+    steps:
       - name: build:app
         run: |
           cd app
@@ -22,6 +25,9 @@ jobs:
           name: public
           path: ./public
 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: deploy:cdk:infrastructure
         uses: youyo/aws-cdk-github-actions@v2
         with:
