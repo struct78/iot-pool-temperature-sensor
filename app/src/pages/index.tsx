@@ -1,3 +1,6 @@
+import "../styles/global.css"
+import "@fontsource/inconsolata/200.css"
+import "@fontsource/inconsolata/400.css"
 import isPropValid from "@emotion/is-prop-valid";
 import { formatDistance, parseISO } from "date-fns";
 import { HeadFC, PageProps, graphql } from "gatsby";
