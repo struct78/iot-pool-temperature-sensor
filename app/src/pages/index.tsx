@@ -1,6 +1,6 @@
-import "../styles/global.css"
-import "@fontsource/inconsolata/200.css"
-import "@fontsource/inconsolata/400.css"
+import "../styles/global.css";
+import "@fontsource/inconsolata/200.css";
+import "@fontsource/inconsolata/400.css";
 import isPropValid from "@emotion/is-prop-valid";
 import { formatDistance, parseISO } from "date-fns";
 import { HeadFC, PageProps, graphql } from "gatsby";
@@ -8,7 +8,7 @@ import React, { FC, useEffect, useState } from "react";
 import tw, { css, styled } from "twin.macro";
 import { usePolling } from "../hooks/usePolling";
 import { AnimatedNumber } from "../components/AnimatedNumber/AnimatedNumber";
-import config from "../../../config.json"
+import config from "../../../config.json";
 
 type Response = {
   temperature?: number;
