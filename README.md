@@ -56,13 +56,18 @@ npm run build
 ## Arduino project
 The code for the Arduino project is also included. You will need the following items for it to work:
 
-- [Arduino Uno Wifi Rev2](https://core-electronics.com.au/arduino-uno-wifi-rev2.html)
-- [ProtoShield + Mini Breadboard for Arduino](https://core-electronics.com.au/protoshield-mini-breadboard-for-arduino.html)
-- [Temperature Sensor - Waterproof (DS18B20)](https://core-electronics.com.au/temperature-sensor-waterproof-ds18b20.html)
-- [Flanged Weatherproof Enclosure With PG-7 Cable Glands](https://core-electronics.com.au/flanged-weatherproof-enclosure-with-pg-7-cable-glands.html)
-- [5mm Pitch 2-Pin Screw Terminal Block](https://core-electronics.com.au/2-pin-screw-terminal-block-5mm-pitch.html)
-- [POLOLU-2443 - Screw Terminal Block: 3-Pin, 5 mm Pitch, Top Entry](https://core-electronics.com.au/screw-terminal-block-3-pin-5-mm-pitch-top-entry-4-pack.html)
-- [Jumper wires](https://core-electronics.com.au/jumbo-jumper-wire-kit-for-solderless-breadboard-350-pcs.html)
+| Item | Price |
+-------|---------
+[Arduino Uno Wifi Rev2](https://core-electronics.com.au/arduino-uno-wifi-rev2.html) | AUD$96.90
+[ProtoShield + Mini Breadboard for Arduino](https://core-electronics.com.au/protoshield-mini-breadboard-for-arduino.html) | AUD$8.25
+[Temperature Sensor - Waterproof (DS18B20)](https://core-electronics.com.au/temperature-sensor-waterproof-ds18b20.html) | AUD$21.13
+[Flanged Weatherproof Enclosure With PG-7 Cable Glands](https://core-electronics.com.au/flanged-weatherproof-enclosure-with-pg-7-cable-glands.html) | AUD$28.10
+[5mm Pitch 2-Pin Screw Terminal Block](https://core-electronics.com.au/2-pin-screw-terminal-block-5mm-pitch.html) | AUD$0.44
+[POLOLU-2443 - Screw Terminal Block: 3-Pin, 5 mm Pitch, Top Entry](https://core-electronics.com.au/screw-terminal-block-3-pin-5-mm-pitch-top-entry-4-pack.html) | AUD$3.44
+[Jumper wires](https://core-electronics.com.au/jumbo-jumper-wire-kit-for-solderless-breadboard-350-pcs.html) | AUD$27.50
+----------------
+
+Total Spend: AUD $185.76
 
 ### Fritzing Diagram
 You can download a Fritzing diagram here:
