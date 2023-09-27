@@ -116,8 +116,8 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
         &deg;
       </H1>
       <H5>{emojis[feel]}</H5>
-      <H6>Temperature was measured {lastUpdatedDate}</H6>
-      <H6>App last checked {lastFetchedTime}</H6>
+      <H6>Pool temperature was measured {lastUpdatedDate}</H6>
+      <H6>API last checked {lastFetchedTime}</H6>
     </Main>
   );
 };
