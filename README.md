@@ -90,12 +90,9 @@ The code for the Arduino project is also included. You will need the following i
 
 Total Spend: AUD $185.76
 
-### Fritzing Diagram
-You can download a Fritzing diagram here:
+### How to run
+First create a `credentials.h` file.
 
-![IOT Pool Temperature Sensor Fritzing Diagram](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/arduino/diagram.svg)
-
-To run:
 ```bash
 cd arduino/iot-pool-temperature-sensor
 cp credentials.h.example credentials.h
@@ -110,7 +107,12 @@ const int API_GATEWAY_PORT = 443;
 const char API_KEY[] = "abc1234"; # Retrieve this value from Secrets Manager
 ```
 
-Connect the Arduino to your computer and then deploy via the Arduino IDE.
+Connect the Arduino to your computer via USB and then deploy via the Arduino IDE.
+
+### Diagram
+I've created a simple [Fritzing](https://fritzing.org) diagram which explains how to wire everything up: [Download Fritzing Diagram](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/arduino/diagram.fzz)
+
+![IOT Pool Temperature Sensor Fritzing Diagram](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/arduino/diagram.svg)
 
 ## Known Issues
 
