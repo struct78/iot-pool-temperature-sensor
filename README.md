@@ -17,10 +17,10 @@ This project was inspired by my children, who kept asking to go outside to check
 
 
 ## How to install
-The first step is to clone this repository, and update `config.json` with the domain name you want to use. Sorry, you can't use `canwegointhepool.com`, it's already taken!
+The first step is to clone this repository, and update `config.json` with the domain name you want to use. We've used `canwegointhepool.com`.
 
 ## Infrastructure
-The sensor is backed by AWS, which collects temperature readings in a database and serves the web app. The CDK project includes:
+The platform is built on AWS, which collects temperature readings in a database and serves the web app. The CDK project includes:
 
 - Route 53
 - Cloudfront
