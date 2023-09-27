@@ -109,7 +109,7 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
     <Main feel={feel}>
       <H1>
         <AnimatedNumber
-          value={16.70}
+          value={temperature}
           duration={4000}
           onChange={handleChange}
         />
