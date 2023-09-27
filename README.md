@@ -9,7 +9,7 @@ This project was inspired by my children, who kept asking to go outside to check
 #### Oh hell no
 ![Cold](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/cold.png)
 
-#### Maaaaybe
+#### You can go in, I'm just going to watch
 ![Not bad](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/not-bad.png)
 
 #### Woohoo! Let's go!
