@@ -6,13 +6,13 @@ This project was inspired by my children, who kept asking to go outside to check
 2) How cold does the pool get in winter?
 3) Why are you asking me? Check the website! [canwegointhepool.com](https://canwegointhepool.com)
 
-##### Oh hell no
+#### Oh hell no
 ![Cold](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/cold.png)
 
-##### Maaaaybe
+#### Maaaaybe
 ![Not bad](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/not-bad.png)
 
-##### Woohoo! Let's go!
+#### Woohoo! Let's go!
 ![Perfect](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/perfect.png)
 
 
