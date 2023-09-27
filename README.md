@@ -4,16 +4,20 @@ This project was inspired by my children, who kept asking to go outside to check
 
 1) How warm is warm enough for everyone?
 2) How cold does the pool get in winter?
-3) Why are you still asking me to check the pool? Just look at the app!
+3) Why are you asking me? Check the app!
 
-## AWS Infrastructure
-The sensor is backed by AWS, which collects temperature readings and serves the web app. The CDK project includes:
+## How to install
+The first step is to clone this repository, and update `config.json` with the domain name you want to use. Sorry, you can't use `canwegointhepool.com`, it's already taken!
 
-- Route 53 hosted zones
-- Cloudfront distribution
-- S3 bucket
-- API Gateway w/ read & write Lambda integrations
+## Infrastructure
+The sensor is backed by AWS, which collects temperature readings in a database and serves the web app. The CDK project includes:
+
+- Route 53
+- Cloudfront
+- S3
+- API Gateway w/ Lambda integrations (including API key for the write endpoint)
 - RDS w/ MySQL
+- Multi-AZ VPC
 
 To install dependencies:
 ```bash
@@ -38,8 +42,8 @@ To destroy:
 npm run destroy
 ```
 
-## Web App
-The web app is a simple Gatsby site which pulls the latest temperature reading.
+## App
+The web app is a simple Gatsby site which pulls the latest temperature reading from the API Gateway.
 
 To install dependencies:
 
@@ -60,7 +64,7 @@ To build:
 npm run build
 ```
 
-## Arduino project
+## Arduino
 The code for the Arduino project is also included. You will need the following items for it to work:
 
 | Item | Price |

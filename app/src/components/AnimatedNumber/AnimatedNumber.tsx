@@ -3,7 +3,7 @@ import { useState } from "react"
 
 type AnimatedNumberProps = {
   duration?: number
-  onChange: (value: number, percentage: number) => void
+  onChange: (value: number) => void
   startValue?: number
   value?: number
 }
@@ -34,11 +34,11 @@ export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 1
 
     if (now - startTime <= duration) {
       const percentage = (now - startTime) / duration
-      const nextValue = Number((value * easing(percentage)).toFixed(2))
+      const nextValue = value * easing(percentage)
       setCurrentValue(nextValue)
 
       if (onChange) {
-        onChange(nextValue, percentage)
+        onChange(nextValue)
       }
 
       requestId = requestAnimationFrame(animate)
@@ -51,5 +51,5 @@ export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 1
     requestId = requestAnimationFrame(animate)
   }, [])
   
-  return <span>{currentValue === 0 ? "00.00" : currentValue.toString().padStart(5, "0")}</span>
+  return <span>{currentValue === 0 ? "00.00" : currentValue.toFixed(2).padStart(5, "0")}</span>
 }

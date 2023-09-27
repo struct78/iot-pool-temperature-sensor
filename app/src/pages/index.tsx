@@ -5,6 +5,7 @@ import React, { FC, useEffect, useState } from "react";
 import tw, { css, styled } from "twin.macro";
 import { usePolling } from "../hooks/usePolling";
 import { AnimatedNumber } from "../components/AnimatedNumber/AnimatedNumber";
+import config from "../../../config.json"
 
 type Response = {
   temperature?: number;
@@ -74,7 +75,7 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
 
   async function fetchTemperature(abortSignal: AbortSignal) {
     try {
-      const res = await fetch("https://api.canwegointhepool.com/app/read", {
+      const res = await fetch(`https://api.${config.domainName}/app/read`, {
         signal: abortSignal,
       });
       const response = await res.json();
@@ -96,7 +97,7 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
     ? `${formatDistance(lastFetchTime, new Date())} ago`
     : "-";
 
-  const handleChange = (value: number, percentage: number) => {
+  const handleChange = (value: number) => {
     setFeel(getKeyFromTemperature(value));
   };
 
@@ -108,7 +109,7 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
     <Main feel={feel}>
       <H1>
         <AnimatedNumber
-          value={temperature}
+          value={16.70}
           duration={4000}
           onChange={handleChange}
         />

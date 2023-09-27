@@ -1,8 +1,9 @@
-import type { GatsbyConfig } from "gatsby";
+import type { GatsbyConfig } from "gatsby"
+import conf from "../config.json"
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: "pool-temperature-sensor",
+    title: "IOT Pool Temperature Sensor",
   },
   graphqlTypegen: true,
   plugins: [
@@ -13,7 +14,7 @@ const config: GatsbyConfig = {
         allowCache: false,
         typePrefix: "thirdParty__",
         name: "Temperature",
-        url: "https://api.canwegointhepool.com/app/read",
+        url: `https://api.${conf.domainName}/app/read`,
       },
     },
     {
