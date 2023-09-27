@@ -21,7 +21,14 @@ cd infrastructure
 npm i
 ```
 
-To deploy:
+To deploy, first we need to build the app:
+```bash
+cd app
+npm run build
+cd ../infrastructure
+```
+
+Then run the deploy command:
 ```bash
 npm run deploy
 ```
