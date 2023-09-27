@@ -6,6 +6,16 @@ This project was inspired by my children, who kept asking to go outside to check
 2) How cold does the pool get in winter?
 3) Why are you asking me? Check the app!
 
+##### Oh hell no
+![Cold](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/cold.png)
+
+##### Maaaaybe
+![Not bad](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/not-bad.png)
+
+##### Woohoo! Let's go!
+![Perfect](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/perfect.png)
+
+
 ## How to install
 The first step is to clone this repository, and update `config.json` with the domain name you want to use. Sorry, you can't use `canwegointhepool.com`, it's already taken!
 
