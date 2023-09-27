@@ -56,18 +56,18 @@ npm run build
 ## Arduino project
 The code for the Arduino project is also included. You will need the following items for it to work:
 
-- [Arduino Uno R3 (or similar)](https://core-electronics.com.au/arduino-uno-r3.html)
-- [ProtoShield + Mini Breadboard for Arduino](https://core-electronics.com.au/protoshield-mini-breadboard-for-arduino.html
-)
+- [Arduino Uno Wifi Rev2](https://core-electronics.com.au/arduino-uno-wifi-rev2.html)
+- [ProtoShield + Mini Breadboard for Arduino](https://core-electronics.com.au/protoshield-mini-breadboard-for-arduino.html)
 - [Temperature Sensor - Waterproof (DS18B20)](https://core-electronics.com.au/temperature-sensor-waterproof-ds18b20.html)
 - [Flanged Weatherproof Enclosure With PG-7 Cable Glands](https://core-electronics.com.au/flanged-weatherproof-enclosure-with-pg-7-cable-glands.html)
 - [5mm Pitch 2-Pin Screw Terminal Block](https://core-electronics.com.au/2-pin-screw-terminal-block-5mm-pitch.html)
-- Wires
+- [POLOLU-2443 - Screw Terminal Block: 3-Pin, 5 mm Pitch, Top Entry](https://core-electronics.com.au/screw-terminal-block-3-pin-5-mm-pitch-top-entry-4-pack.html)
+- [Jumper wires](https://core-electronics.com.au/jumbo-jumper-wire-kit-for-solderless-breadboard-350-pcs.html)
 
+### Fritzing Diagram
+You can download a Fritzing diagram here:
 
-TODO:
-- Fritzing diagram
-- Add missing parts to README
+![IOT Pool Temperature Sensor Fritzing Diagram](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/arduino/diagram.svg)
 
 To run:
 ```bash
@@ -85,3 +85,7 @@ const char API_KEY[] = "abc1234"; # Retrieve this value from Secrets Manager
 ```
 
 Connect the Arduino to your computer and then deploy via the Arduino IDE.
+
+## Known Issues
+
+There is a [known issue](https://github.com/arduino-libraries/WiFiNINA/issues/200) with the Arduino WiFi Rev2 and the WiFiNiNA library, whereby if you have multiple APs (wifi booster, range extenders, etc) with the same SSID, the board will often connect to the most distant AP. i.e. it is not smart enough to connect to the closest/strongest one, which leads to periodic drop outs.
