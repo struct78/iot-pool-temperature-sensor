@@ -29,6 +29,11 @@ The sensor is backed by AWS, which collects temperature readings in a database a
 - RDS w/ MySQL
 - Multi-AZ VPC
 
+### Estimated Cost
+The deployed AWS infrastructure, depending on your region(s), will cost about $30-45 per month.
+
+### How to deploy & destroy
+
 To install dependencies:
 ```bash
 cd infrastructure
