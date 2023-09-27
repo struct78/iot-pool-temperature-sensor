@@ -7,7 +7,6 @@ type TemperatureHistory = {
 }
 
 export const handler = async (event: any) => {
-  console.log(event)
   try {
     const result = await getLatestFromDatabase<TemperatureHistory[]>()
     return {
@@ -38,7 +37,7 @@ async function getLatestFromDatabase<T>(): Promise<T | undefined> {
   const databaseProps = JSON.parse(`${secretValue.SecretString}`)
   const { dbname, password, port, host, username } = databaseProps
 
-  const pool = MYSQL.createConnection({
+  const connection = MYSQL.createConnection({
     user: username,
     database: dbname,
     password,
@@ -48,7 +47,9 @@ async function getLatestFromDatabase<T>(): Promise<T | undefined> {
   })
 
   const result = await new Promise<T>((resolve, reject) => {
-    pool.query("SELECT temperature, time FROM temperature.temperature_history ORDER BY time DESC LIMIT 1", (error, results) => {
+    connection.query("SELECT temperature, time FROM temperature.temperature_history ORDER BY time DESC LIMIT 1", (error, results) => {
+      connection.end()
+
       if (error) {
         return reject(error)
       }

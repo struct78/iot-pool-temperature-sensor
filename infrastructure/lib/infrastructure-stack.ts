@@ -1,21 +1,21 @@
 import { TypeScriptCode } from "@mrgrain/cdk-esbuild"
 import { CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from "aws-cdk-lib"
-import { ApiKey, ApiKeySourceType, AuthorizationType, CfnStage, Cors, DomainName, EndpointType, LambdaIntegration, RestApi, SecurityPolicy } from "aws-cdk-lib/aws-apigateway"
+import { ApiKey, ApiKeySourceType, CfnStage, Cors, DomainName, EndpointType, LambdaIntegration, RestApi, SecurityPolicy } from "aws-cdk-lib/aws-apigateway"
 import { Certificate, CertificateValidation } from "aws-cdk-lib/aws-certificatemanager"
 import { AllowedMethods, CachePolicy, Distribution, ViewerProtocolPolicy } from "aws-cdk-lib/aws-cloudfront"
 import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins"
-import { InstanceClass, InstanceSize, InstanceType, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2"
+import { InstanceClass, InstanceSize, InstanceType, IpAddresses, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2"
 import { ServicePrincipal } from "aws-cdk-lib/aws-iam"
 import { Function, Runtime } from "aws-cdk-lib/aws-lambda"
 import { LogGroup } from "aws-cdk-lib/aws-logs"
-import { Credentials, DatabaseInstance, DatabaseInstanceEngine, DatabaseSecret } from "aws-cdk-lib/aws-rds"
+import { Credentials, DatabaseInstance, DatabaseInstanceEngine } from "aws-cdk-lib/aws-rds"
 import { ARecord, AaaaRecord, PublicHostedZone, RecordTarget } from "aws-cdk-lib/aws-route53"
 import { ApiGatewayDomain, CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets"
 import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3"
 import { BucketDeployment, CacheControl, Source } from "aws-cdk-lib/aws-s3-deployment"
+import { Secret } from "aws-cdk-lib/aws-secretsmanager"
 import { Construct } from "constructs"
 import config from "../../config.json"
-import { Secret } from "aws-cdk-lib/aws-secretsmanager"
 
 export class InfrastructureStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -75,7 +75,7 @@ export class InfrastructureStack extends Stack {
       credentials: Credentials.fromGeneratedSecret("temperaturedb"),
       removalPolicy: RemovalPolicy.DESTROY,
       databaseName,
-      publiclyAccessible: true,
+      publiclyAccessible: false,
       securityGroups: [databaseSecurityGroup],
     })
 
