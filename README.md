@@ -1,4 +1,4 @@
-# IOT Pool Temperature Sensor and Web App
+# IOT Pool Temperature Sensor
 
 This project was inspired by my children, who kept asking to go outside to check if the pool was warm or not. Which prompted some questions:
 
