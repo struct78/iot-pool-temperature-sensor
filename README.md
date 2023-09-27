@@ -4,7 +4,7 @@ This project was inspired by my children, who kept asking to go outside to check
 
 1) How warm is warm enough for everyone?
 2) How cold does the pool get in winter?
-3) Why are you asking me? Check the app!
+3) Why are you asking me? Check the website! [canwegointhepool.com](https://canwegointhepool.com)
 
 ##### Oh hell no
 ![Cold](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/cold.png)
