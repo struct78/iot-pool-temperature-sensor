@@ -12,7 +12,8 @@
     "test": "jest",
     "cdk": "cdk",
     "deploy": "cdk deploy --profile pool",
-    "destroy": "cdk destroy --profile pool"
+    "destroy": "cdk destroy --profile pool",
+    "login:sso": "aws sso login --profile pool"
   },
   "devDependencies": {
     "@types/jest": "^29.5.4",
