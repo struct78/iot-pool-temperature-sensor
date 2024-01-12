@@ -106,7 +106,7 @@ void publishMessage() {
     client.println(postData);
     client.println();
 
-    while (client.connected()) {  
+    if (client.connected()) {  
       while (client.available()) {
         char c = client.read();
         Serial.write(c);
@@ -114,6 +114,7 @@ void publishMessage() {
     }
 
     Serial.println("Closing connection.");
+    client.flush();
     client.stop();
   } else {
     Serial.println("Could not send data");
