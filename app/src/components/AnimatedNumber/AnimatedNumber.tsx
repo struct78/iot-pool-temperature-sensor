@@ -1,5 +1,4 @@
-import React, { FC, useCallback, useEffect } from "react"
-import { useState } from "react"
+import React, { type FC, useCallback, useEffect, useState, useRef } from "react"
 
 type AnimatedNumberProps = {
   duration?: number
@@ -10,8 +9,7 @@ type AnimatedNumberProps = {
 
 export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 100, startValue = 0.00, value = 0.00 }) => {
   const [currentValue, setCurrentValue] = useState(startValue)
-  const [startTime] = useState(new Date().getTime())
-  let requestId: number = -1
+  const startTime = useRef(new Date().getTime())
 
   const easing = (x: number) => {
     if (x === 0) {
@@ -32,8 +30,8 @@ export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 1
   const animate = useCallback(() => {
     const now = new Date().getTime()
 
-    if (now - startTime < duration) {
-      const percentage = (now - startTime) / duration
+    if (now - startTime.current < duration) {
+      const percentage = (now - startTime.current) / duration
       const nextValue = value * easing(percentage)
 
       setCurrentValue(nextValue)
@@ -42,14 +40,14 @@ export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 1
         onChange(nextValue)
       }
 
-      requestId = requestAnimationFrame(animate)
+      requestAnimationFrame(animate)
     } else {
       setCurrentValue(Number(value))
     }
   }, [startTime, onChange, setCurrentValue, value])
 
   useEffect(() => {
-    requestId = requestAnimationFrame(animate)
+    requestAnimationFrame(animate)
   }, [value])
   
   return <span>{currentValue.toFixed(2).padStart(5, "0")}</span>

@@ -3,7 +3,8 @@ import "@fontsource/inconsolata/200.css";
 import "@fontsource/inconsolata/400.css";
 import isPropValid from "@emotion/is-prop-valid";
 import { formatDistance, parseISO } from "date-fns";
-import { HeadFC, PageProps, graphql } from "gatsby";
+import { HeadFC, Link, PageProps, graphql } from "gatsby";
+import { BiLogoGithub } from "react-icons/bi"
 import React, { FC, useEffect, useState } from "react";
 import tw, { css, styled } from "twin.macro";
 import { usePolling } from "../hooks/usePolling";
@@ -55,6 +56,10 @@ const H5 = tw.h5`
 const H6 = tw.h6`
   font-body font-normal text-xxs sm:text-xs
 `;
+
+const GithubLogo = tw(BiLogoGithub)`
+  mt-8 w-4 h-4 md:w-8 md:h-8
+`
 
 const getKeyFromTemperature = (temperature?: number) => {
   if (!temperature) {
@@ -130,6 +135,9 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
           <H6>API last checked {lastFetchedTime}</H6>
         </>
       ) : <H6>Loading</H6>}
+      <Link to="https://github.com/struct78/iot-pool-temperature-sensor">
+        <GithubLogo />
+      </Link>
     </Main>
   );
 };

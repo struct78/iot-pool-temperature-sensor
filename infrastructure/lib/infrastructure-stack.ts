@@ -4,7 +4,7 @@ import { ApiKey, ApiKeySourceType, CfnStage, Cors, DomainName, EndpointType, Lam
 import { Certificate, CertificateValidation } from "aws-cdk-lib/aws-certificatemanager"
 import { AllowedMethods, CachePolicy, Distribution, ViewerProtocolPolicy } from "aws-cdk-lib/aws-cloudfront"
 import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins"
-import { InstanceClass, InstanceSize, InstanceType, IpAddresses, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2"
+import { InstanceClass, InstanceSize, InstanceType, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2"
 import { ServicePrincipal } from "aws-cdk-lib/aws-iam"
 import { Function, Runtime } from "aws-cdk-lib/aws-lambda"
 import { LogGroup } from "aws-cdk-lib/aws-logs"
@@ -170,7 +170,7 @@ export class InfrastructureStack extends Stack {
         generateStringKey: "key",
         secretStringTemplate: "{}",
         passwordLength: 30,
-        excludeCharacters: " =-.^,\\%+~`#$&*()|[]{}:;<>?!\'/@\""
+        excludeCharacters: " =-.^,\\%+~`#$&*()|[]{}:;<>?!'/@\""
       },
     })
   

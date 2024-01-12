@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react"
 const DEFAULT_POLLING_INTERVAL = 5000
 
 export function useInterval(callback: () => any, delay: number) {
-  const savedCallback = useRef<() => any | undefined>()
+  const savedCallback = useRef<() => any>()
 
   useEffect(() => {
     savedCallback.current = callback
