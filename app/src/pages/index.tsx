@@ -73,6 +73,7 @@ const getKeyFromTemperature = (temperature?: number) => {
 };
 
 const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
+  const [hasMounted, setHasMounted] = useState<boolean>(false);
   const [data, setData] = useState<Response>(queryData.history);
   const [feel, setFeel] = useState<keyof typeof styles>("unknown");
 
@@ -108,6 +109,10 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
     document.body.setAttribute("style", css(styles[feel]).styles);
   }, [feel]);
 
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
   return (
     <Main feel={feel}>
       <H1>
@@ -119,8 +124,12 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
         &deg;
       </H1>
       <H5>{emojis[feel]}</H5>
-      <H6>Pool temperature was measured {lastUpdatedDate}</H6>
-      <H6>API last checked {lastFetchedTime}</H6>
+      {hasMounted ? (
+        <>
+          <H6>Pool temperature was measured {lastUpdatedDate}</H6>
+          <H6>API last checked {lastFetchedTime}</H6>
+        </>
+      ) : <H6>Loading</H6>}
     </Main>
   );
 };
