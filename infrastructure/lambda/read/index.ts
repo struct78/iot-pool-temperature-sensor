@@ -1,14 +1,23 @@
-import MYSQL from "mysql2"
-import { SecretsManager } from "aws-sdk"
+import { DynamoDB } from "aws-sdk"
 
-type TemperatureHistory = {
-  temperature: number
-  time: string
-}
+const db = new DynamoDB()
+const unmarshall = DynamoDB.Converter.unmarshall
 
-export const handler = async (event: any) => {
+export const handler = async () => {
   try {
-    const result = await getLatestFromDatabase<TemperatureHistory[]>()
+    const params = {
+      TableName: `${process.env.TABLE_NAME}`,
+      Limit: 1,
+      ScanIndexForward: false,
+      KeyConditionExpression: "id = :id",
+      ExpressionAttributeValues: {
+        ":id": { S: "current" },
+      }
+    }
+
+    const result = await db.query(params).promise()
+    const data = unmarshall(result.Items?.[0] ?? {})
+
     return {
       statusCode: 200,
       headers: {
@@ -17,7 +26,7 @@ export const handler = async (event: any) => {
         "Access-Control-Allow-Methods": "GET",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(result?.[0]),
+      body: JSON.stringify(data),
     }
   } catch (ex) {
     return {
@@ -27,35 +36,4 @@ export const handler = async (event: any) => {
       }
     }
   }
-}
-
-async function getLatestFromDatabase<T>(): Promise<T | undefined> {
-  const secretsManager = new SecretsManager({
-    region: process.env.AWS_REGION,
-  })
-  const secretValue = await secretsManager.getSecretValue({ SecretId: `${process.env.DB_SECRET_ARN}` }).promise()
-  const databaseProps = JSON.parse(`${secretValue.SecretString}`)
-  const { dbname, password, port, host, username } = databaseProps
-
-  const connection = MYSQL.createConnection({
-    user: username,
-    database: dbname,
-    password,
-    port,
-    host,
-    ssl: "Amazon RDS",
-  })
-
-  const result = await new Promise<T>((resolve, reject) => {
-    connection.query("SELECT temperature, time FROM temperature.temperature_history ORDER BY time DESC LIMIT 1", (error, results) => {
-      connection.end()
-
-      if (error) {
-        return reject(error)
-      }
-
-      resolve(results as T)
-    })
-  })
-  return result
 }

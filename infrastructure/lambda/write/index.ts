@@ -1,5 +1,7 @@
-import { SecretsManager } from "aws-sdk"
-import MYSQL from "mysql2"
+import { DynamoDB } from "aws-sdk"
+import { v4 as uuid } from "uuid"
+
+const db = new DynamoDB()
 
 export const handler = async (event: any) => {
   try {
@@ -20,8 +22,28 @@ export const handler = async (event: any) => {
       }
     }
 
-    const result = await addRowToDatabase(temperature)
-  
+    await db.batchWriteItem({
+      RequestItems: {
+        [`${process.env.TABLE_NAME}`]: [{
+          PutRequest: {
+            Item: {
+              id: { S: "current" },
+              temperature: { N: temperature.toString() },
+              date: { N: new Date().getTime().toString() },
+            },
+          }
+        }, {
+          PutRequest: {
+            Item: {
+              id: { S: uuid() },
+              temperature: { N: temperature.toString() },
+              date: { N: new Date().getTime().toString() },
+            }
+          }
+        }],
+      }
+    }).promise()
+
     return {
       statusCode: 200,
       headers: {
@@ -29,7 +51,9 @@ export const handler = async (event: any) => {
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Methods": "POST",
       },
-      body: JSON.stringify(result),
+      body: {
+        success: true,
+      },
     }
   } catch (e) {
     return {
@@ -41,40 +65,8 @@ export const handler = async (event: any) => {
       },
       body: JSON.stringify({
         body: JSON.parse(event.body),
-        e,
+        error: e,
       }),
     }
   }
-}
-
-const addRowToDatabase = async (temperature: number) => {
-  const secretsManager = new SecretsManager({
-    region: process.env.AWS_REGION,
-  })
-  const secretValue = await secretsManager.getSecretValue({ SecretId: `${process.env.DB_SECRET_ARN}` }).promise()
-  const databaseProps = JSON.parse(`${secretValue.SecretString}`)
-  const { dbname, password, port, host, username } = databaseProps
-
-  const pool = MYSQL.createConnection({
-    user: username,
-    database: dbname,
-    password,
-    port,
-    host,
-    ssl: "Amazon RDS",
-    timezone: "Australia/Melbourne",
-  })
-
-  const result = await new Promise((resolve, reject) => {
-    pool.query("INSERT INTO temperature.temperature_history (temperature, time) VALUES (?, ?)", [temperature, new Date()], (error) => {
-      if (error) {
-        return reject(error)
-      }
-
-      resolve({
-        status: "success",
-      })
-    })
-  })
-  return result
 }

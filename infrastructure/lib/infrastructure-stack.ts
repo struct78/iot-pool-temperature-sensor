@@ -4,11 +4,10 @@ import { ApiKey, ApiKeySourceType, CfnStage, Cors, DomainName, EndpointType, Lam
 import { Certificate, CertificateValidation } from "aws-cdk-lib/aws-certificatemanager"
 import { AllowedMethods, CachePolicy, Distribution, ViewerProtocolPolicy } from "aws-cdk-lib/aws-cloudfront"
 import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins"
-import { InstanceClass, InstanceSize, InstanceType, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2"
-import { ServicePrincipal } from "aws-cdk-lib/aws-iam"
+import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb"
+import { Effect, PolicyStatement, ServicePrincipal } from "aws-cdk-lib/aws-iam"
 import { Function, Runtime } from "aws-cdk-lib/aws-lambda"
 import { LogGroup } from "aws-cdk-lib/aws-logs"
-import { Credentials, DatabaseInstance, DatabaseInstanceEngine } from "aws-cdk-lib/aws-rds"
 import { ARecord, AaaaRecord, PublicHostedZone, RecordTarget } from "aws-cdk-lib/aws-route53"
 import { ApiGatewayDomain, CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets"
 import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3"
@@ -41,62 +40,18 @@ export class InfrastructureStack extends Stack {
     certificate.applyRemovalPolicy(RemovalPolicy.DESTROY)
 
     // 3. Infrastructure
-    const vpc = new Vpc(this, "temperature-vpc", { 
-      maxAzs: 2,
-      subnetConfiguration: [
-        {
-          cidrMask: 24,
-          name: "privateLambda",
-          subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-        },
-        {
-          cidrMask: 24,
-          name: "public",
-          subnetType: SubnetType.PUBLIC,
-        },
-      ],
+    const table = new Table(this, "temperature-history", { 
+      partitionKey: { name: "id", type: AttributeType.STRING }, 
+      billingMode: BillingMode.PROVISIONED, 
     })
-
-    const databaseSecurityGroup = new SecurityGroup(this, "temperature-db-security-group", {
-      vpc,
-    })
-
-    const databaseName = "temperature"
-
-    const database = new DatabaseInstance(this, "temperature-rds", {
-      engine: DatabaseInstanceEngine.MYSQL,
-      instanceType: InstanceType.of(InstanceClass.BURSTABLE2, InstanceSize.MICRO),
-      vpc,
-      vpcSubnets: vpc.selectSubnets({
-        subnetType: SubnetType.PUBLIC,
-      }),
-      allocatedStorage: 10,
-      deletionProtection: false,
-      credentials: Credentials.fromGeneratedSecret("temperaturedb"),
-      removalPolicy: RemovalPolicy.DESTROY,
-      databaseName,
-      publiclyAccessible: false,
-      securityGroups: [databaseSecurityGroup],
-    })
-
-    const lambdaSecurityGroup = new SecurityGroup(this, "temperature-lambda-security-group", {
-      vpc,
-    });
 
     const readLambda = new Function(this, "temperature-lambda-read", {
       functionName: "temperature-read",
       runtime: Runtime.NODEJS_16_X,
       code: new TypeScriptCode("./lambda/read/index.ts"),
       handler: "index.handler",
-      vpc,
-      vpcSubnets: vpc.selectSubnets({
-        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-      }),
-      securityGroups: [lambdaSecurityGroup],
       environment: {
-        DB_ENDPOINT_ADDRESS: database.dbInstanceEndpointAddress,
-        DB_NAME: databaseName,
-        DB_SECRET_ARN: `${database.secret?.secretFullArn}`,
+        TABLE_NAME: table.tableName,
       },
       timeout: Duration.seconds(30),
     })
@@ -106,26 +61,25 @@ export class InfrastructureStack extends Stack {
       runtime: Runtime.NODEJS_16_X,
       code: new TypeScriptCode("./lambda/write/index.ts"),
       handler: "index.handler",
-      vpc,
-      vpcSubnets: vpc.selectSubnets({
-        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-      }),
-      securityGroups: [lambdaSecurityGroup],
       environment: {
-        DB_ENDPOINT_ADDRESS: database.dbInstanceEndpointAddress,
-        DB_NAME: databaseName,
-        DB_SECRET_ARN: `${database.secret?.secretFullArn}`,
-      }
+        TABLE_NAME: table.tableName,
+      },
     })
 
-    database.secret?.grantRead(writeLambda)
-    database.secret?.grantRead(readLambda)
-    
-    databaseSecurityGroup.addIngressRule(
-      lambdaSecurityGroup,
-      Port.tcp(3306),
-      "Lambda to MySQL database",
-    );
+    const readPolicy = new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["dynamodb:Query"],
+      resources: [table.tableArn]
+    })
+
+    const writePolicy = new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["dynamodb:PutItem", "dynamodb:BatchWriteItem"],
+      resources: [table.tableArn]
+    })
+
+    writeLambda.addToRolePolicy(writePolicy)
+    readLambda.addToRolePolicy(readPolicy)
     
     // API Gateway
     const readGateway = new RestApi(this, "temperature-api-gateway-read", {
