@@ -2,7 +2,7 @@ import "../styles/global.css";
 import "@fontsource/inconsolata/200.css";
 import "@fontsource/inconsolata/400.css";
 import isPropValid from "@emotion/is-prop-valid";
-import { formatDistance, parseISO } from "date-fns";
+import { formatDistance, parse } from "date-fns";
 import { HeadFC, Link, PageProps, graphql } from "gatsby";
 import { BiLogoGithub } from "react-icons/bi"
 import React, { FC, useEffect, useState } from "react";
@@ -13,7 +13,7 @@ import config from "../../../config.json";
 
 type Response = {
   temperature?: number;
-  time?: string;
+  date?: string;
 };
 
 type Data = {
@@ -97,8 +97,8 @@ const IndexPage: FC<PageProps<Data>> = ({ data: queryData }) => {
   }
 
   const lastFetchTime = usePolling(fetchTemperature);
-  const { temperature, time } = data || {};
-  const formattedTime = time ? parseISO(time) : null;
+  const { temperature, date } = data || {};
+  const formattedTime = date ? new Date(date) : null;
   const lastUpdatedDate = formattedTime
     ? `${formatDistance(formattedTime, new Date())} ago`
     : "-";
@@ -155,7 +155,7 @@ export const Head: HeadFC = () => (
 export const query = graphql`
   query TemperatureQuery {
     history: thirdPartyTemperature(temperature: { ne: null }) {
-      time
+      date
       temperature
     }
   }
