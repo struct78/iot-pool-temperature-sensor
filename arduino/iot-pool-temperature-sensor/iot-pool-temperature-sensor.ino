@@ -90,9 +90,6 @@ void publishMessage() {
     client.print("POST ");
     client.print(API_GATEWAY_PATH);
     client.println(" HTTP/1.1");
-    client.print("POST ");
-    client.print(API_GATEWAY_PATH);
-    client.println(" HTTP/1.1");
     client.print("Host: ");
     client.println(API_GATEWAY_ENDPOINT);
     client.println("User-Agent: Pool/1.0");
