@@ -45,11 +45,11 @@ export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 1
     } else {
       setCurrentValue(Number(value))
     }
-  }, [startTime, onChange, setCurrentValue, value])
+  }, [duration, startTime, onChange, setCurrentValue, value])
 
   useEffect(() => {
     requestAnimationFrame(animate)
-  }, [value])
+  }, [value, animate])
   
   return <span>{currentValue.toFixed(2).padStart(5, "0")}</span>
 }
