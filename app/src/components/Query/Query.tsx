@@ -4,6 +4,7 @@ import { formatDistance } from "date-fns"
 import { useEffect, useRef, useState } from "react"
 import { AnimatedNumber } from "../AnimatedNumber/AnimatedNumber"
 import Link from "next/link"
+import config from "../../../../config.json"
 
 type QueryProps = {
   date: number
@@ -56,7 +57,7 @@ export const Query = ({
 
   async function fetchTemperature(abortSignal: AbortSignal) {
     try {
-      const res = await fetch(`/api`, {
+      const res = await fetch(`https://api.${config.domainName}/app/read`, {
         cache: "no-cache",
         signal: abortSignal,
       })
