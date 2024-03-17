@@ -76,8 +76,8 @@ export const Query = ({
   }
 
   useEffect(() => {
-    const tick = async () => {
-      await fetchTemperature(abortControllerRef.current.signal)
+    const tick = () => {
+      void fetchTemperature(abortControllerRef.current.signal)
     }
 
     if (delay !== null) {
