@@ -53,8 +53,8 @@ export const Query = ({
   const abortControllerRef = useRef(new AbortController())
   const delay = 5000
   const formattedTime = date ? new Date(date) : null
-  const lastUpdatedDate = formattedTime ? `${formatDistance(formattedTime, new Date())} ago` : "-"
-  const lastFetchedTime = lastFetchTime ? `${formatDistance(lastFetchTime, new Date())} ago` : lastUpdatedDate
+  const lastUpdatedDate = formattedTime ? `${formatDistance(formattedTime, new Date(), { includeSeconds: true })} ago` : "-"
+  const lastFetchedTime = lastFetchTime ? `${formatDistance(lastFetchTime, new Date(), { includeSeconds: true })} ago` : lastUpdatedDate
 
   async function fetchTemperature(abortSignal: AbortSignal) {
     try {
@@ -103,8 +103,8 @@ export const Query = ({
       <h5 className="text-sm sm:text-md">
         {emojis[feel]}
       </h5>
-      <h6>Pool temperature was measured {lastUpdatedDate}</h6>
-      <h6>API last checked {lastFetchedTime}</h6>
+      <h6 className="text-xxs sm:text-xs">Pool temperature was measured {lastUpdatedDate}</h6>
+      <h6 className="text-xxs sm:text-xs">API last checked {lastFetchedTime}</h6>
       <Link href="https://github.com/struct78/iot-pool-temperature-sensor">
         <GithubLogo className="w-4 h-4 mt-8 md:h-8 md:w-8" />
       </Link>
