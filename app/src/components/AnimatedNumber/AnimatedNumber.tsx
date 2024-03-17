@@ -1,5 +1,5 @@
 "use client"
-import React, { type FC, useCallback, useEffect, useState, useRef } from "react"
+import React, { type FC, useCallback, useEffect, useState } from "react"
 
 type AnimatedNumberProps = {
   duration?: number
@@ -8,9 +8,10 @@ type AnimatedNumberProps = {
   value?: number
 }
 
-export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 100, startValue = 0.00, value = 0.00 }) => {
-  const [currentValue, setCurrentValue] = useState(startValue)
-  const startTime = useRef(new Date().getTime())
+export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 100, value = 0.00 }) => {
+  const [currentValue, setCurrentValue] = useState(value)
+  const [previousValue, setPreviousValue] = useState(value)
+  const [startTime, setStartTime] = useState(new Date().getTime())
 
   const easing = (x: number) => {
     if (x === 0) {
@@ -30,10 +31,15 @@ export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 1
 
   const animate = useCallback(() => {
     const now = new Date().getTime()
+    const diff = value - previousValue
 
-    if (now - startTime.current < duration) {
-      const percentage = (now - startTime.current) / duration
-      const nextValue = value * easing(percentage)
+    if (diff === 0) {
+      return
+    }
+
+    if (now - startTime < duration) {
+      const percentage = (now - startTime) / duration
+      const nextValue = previousValue + (diff * easing(percentage))
 
       setCurrentValue(nextValue)
 
@@ -43,13 +49,17 @@ export const AnimatedNumber: FC<AnimatedNumberProps> = ({ onChange, duration = 1
 
       requestAnimationFrame(animate)
     } else {
-      setCurrentValue(Number(value))
+      setPreviousValue(value)
     }
-  }, [duration, startTime, onChange, setCurrentValue, value])
+  }, [duration, startTime, onChange, setCurrentValue, value, setPreviousValue])
+
+  useEffect(() => {
+    setStartTime(new Date().getTime())
+  }, [value])
 
   useEffect(() => {
     requestAnimationFrame(animate)
-  }, [value, animate])
+  }, [startTime])
   
   return <span>{currentValue.toFixed(2).padStart(5, "0")}</span>
 }

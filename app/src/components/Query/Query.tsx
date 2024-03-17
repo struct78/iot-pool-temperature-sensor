@@ -40,7 +40,6 @@ const getKeyFromTemperature = (temperature?: number) => {
   return "perfect"
 }
 
-
 export const Query = ({
   date: serverDate,
   temperature: serverTemperature,
@@ -49,7 +48,7 @@ export const Query = ({
   const [date, setDate] = useState<number>(serverDate)
   const [lastFetchTime, setLastFetchTime] = useState<number>(serverDate)
   const [temperature, setTemperature] = useState<number>(serverTemperature)
-  const [feel, setFeel] = useState<keyof typeof styles>("unknown")
+  const [feel, setFeel] = useState<keyof typeof styles>(getKeyFromTemperature(temperature))
   const delay = 5000
   const formattedTime = date ? new Date(date) : null
   const lastUpdatedDate = formattedTime ? `${formatDistance(formattedTime, new Date())} ago` : "-"
@@ -93,10 +92,9 @@ export const Query = ({
     >
       <h1 className="leading-none text-md font-extralight sm:text-lg lg:text-xl">
         <AnimatedNumber
-          value={temperature}
-          startValue={serverTemperature}
           duration={4000}
           onChange={handleChange}
+          value={temperature}
         />
         &deg;
       </h1>
