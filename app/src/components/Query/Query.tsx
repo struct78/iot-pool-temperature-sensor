@@ -90,7 +90,7 @@ export const Query = ({
     <main
       className={`flex h-screen w-screen flex-col items-center justify-center text-white ${styles[feel]}`}
     >
-      <h1 className="leading-none font-heading text-md font-extralight sm:text-lg lg:text-xl">
+      <h1 className="leading-none text-md font-extralight sm:text-lg lg:text-xl">
         <AnimatedNumber
           value={temperature}
           startValue={serverTemperature}
@@ -99,7 +99,7 @@ export const Query = ({
         />
         &deg;
       </h1>
-      <h5 className="text-sm font-normal font-body sm:text-md">
+      <h5 className="text-sm sm:text-md">
         {emojis[feel]}
       </h5>
       <h6>Pool temperature was measured {lastUpdatedDate}</h6>

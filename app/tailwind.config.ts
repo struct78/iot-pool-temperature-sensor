@@ -4,10 +4,6 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 export default {
   content: ["./src/**/*.tsx"],
   theme: {
-    fontFamily: {
-      "heading": "Inconsolata, Monaco, Courier, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-      "body": "Inconsolata, Monaco, Courier, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-    },
     colors: {
       white: "#FFF",
       black: "#000",
