@@ -9,13 +9,13 @@ This project was inspired by my children, who kept asking to go outside to check
 3) Why are you asking me? Check the website! [canwegointhepool.com](https://canwegointhepool.com)
 
 #### Oh hell no
-![Cold](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/cold.png)
+![Cold](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/public/cold.png)
 
 #### You can go in, I'm just going to watch
-![Not bad](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/not-bad.png)
+![Not bad](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/public/not-bad.png)
 
 #### Woohoo! Let's go!
-![Perfect](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/static/perfect.png)
+![Perfect](https://raw.githubusercontent.com/struct78/iot-pool-temperature-sensor/master/app/public/perfect.png)
 
 
 ## How to install
