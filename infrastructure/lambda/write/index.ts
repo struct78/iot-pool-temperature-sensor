@@ -16,9 +16,11 @@ export const handler = async (event: any) => {
           "Access-Control-Allow-Headers": "Content-Type",
           "Access-Control-Allow-Methods": "POST",
         },
-        body: {
+        body: JSON.stringify({
+          success: false,
           error: "Invalid temperature",
-        },
+        }),
+        isBase64Encoded: false,
       }
     }
 
@@ -51,9 +53,10 @@ export const handler = async (event: any) => {
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Methods": "POST",
       },
-      body: {
+      body: JSON.stringify({
         success: true,
-      },
+      }),
+      isBase64Encoded: false,
     }
   } catch (e) {
     return {
@@ -64,9 +67,10 @@ export const handler = async (event: any) => {
         "Access-Control-Allow-Methods": "POST",
       },
       body: JSON.stringify({
-        body: JSON.parse(event.body),
+        success: false,
         error: e,
       }),
+      isBase64Encoded: false,
     }
   }
 }
