@@ -45,11 +45,12 @@ export const Query = ({
   date: serverDate,
   temperature: serverTemperature,
 }: QueryProps) => {
-  const abortControllerRef = useRef(new AbortController())
   const [date, setDate] = useState<number>(serverDate)
   const [lastFetchTime, setLastFetchTime] = useState<number>(serverDate)
   const [temperature, setTemperature] = useState<number>(serverTemperature)
   const [feel, setFeel] = useState<keyof typeof styles>(getKeyFromTemperature(temperature))
+  
+  const abortControllerRef = useRef(new AbortController())
   const delay = 5000
   const formattedTime = date ? new Date(date) : null
   const lastUpdatedDate = formattedTime ? `${formatDistance(formattedTime, new Date())} ago` : "-"
