@@ -34,6 +34,15 @@ void loop() {
     lastMillis = millis();
     publishMessage();      
   }
+
+  while (client.available()) {
+    char c = client.read();
+    Serial.write(c);
+  }
+
+  if (!client.connected()) {
+    client.flush();
+  }
 }
 
 void connectWiFi() {
@@ -102,17 +111,6 @@ void publishMessage() {
     client.println();
     client.println(postData);
     client.println();
-
-    if (client.connected()) {  
-      while (client.available()) {
-        char c = client.read();
-        Serial.write(c);
-      }
-    }
-
-    Serial.println("Closing connection.");
-    client.flush();
-    client.stop();
   } else {
     Serial.println("Could not send data");
   }
