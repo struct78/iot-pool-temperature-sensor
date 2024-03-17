@@ -1,6 +1,8 @@
-/** @type {import("tailwindcss").Config} */
-module.exports = {
-  content: [],
+import { type Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
+
+export default {
+  content: ["./src/**/*.tsx"],
   theme: {
     fontFamily: {
       "heading": "Inconsolata, Monaco, Courier, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
@@ -21,7 +23,11 @@ module.exports = {
       lg: "12rem",
       xl: "20rem",
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+      },
+    },
   },
   plugins: [],
-}
+} satisfies Config;

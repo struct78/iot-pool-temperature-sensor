@@ -8,7 +8,7 @@ import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb"
 import { Effect, PolicyStatement, ServicePrincipal } from "aws-cdk-lib/aws-iam"
 import { Function, Runtime } from "aws-cdk-lib/aws-lambda"
 import { LogGroup } from "aws-cdk-lib/aws-logs"
-import { ARecord, AaaaRecord, PublicHostedZone, RecordTarget } from "aws-cdk-lib/aws-route53"
+import { ARecord, AaaaRecord, CnameRecord, PublicHostedZone, RecordTarget } from "aws-cdk-lib/aws-route53"
 import { ApiGatewayDomain, CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets"
 import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3"
 import { BucketDeployment, CacheControl, Source } from "aws-cdk-lib/aws-s3-deployment"
@@ -181,42 +181,6 @@ export class InfrastructureStack extends Stack {
     readLogGroup.grantWrite(new ServicePrincipal("apigateway.amazonaws.com"))
     writeLogGroup.grantWrite(new ServicePrincipal("apigateway.amazonaws.com"))
 
-    // App hosting
-    const assetsBucket = new Bucket(this, "temperature-app-bucket", {
-      autoDeleteObjects: true,
-      publicReadAccess: false,
-      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-    })
-
-    // Create S3 bucket
-    const assetsBucketS3Origin = new S3Origin(assetsBucket)
-
-    // Create Cloudfront distribution
-    const distribution = new Distribution(this, "temperature-app-distribution", {
-      defaultBehavior: {
-        allowedMethods: AllowedMethods.ALLOW_ALL,
-        cachePolicy: CachePolicy.CACHING_OPTIMIZED,
-        compress: true,
-        origin: assetsBucketS3Origin,
-        viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-      },
-      defaultRootObject: "index.html",
-      domainNames: [domainName, `www.${domainName}`],
-      certificate,
-    })
-
-    // Connect cloudfront to A record
-    new ARecord(this, "temperature-a-record", {
-      zone: hostedZone,
-      target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
-    })
-
-    // Connect cloudfront to AAAA record
-    new AaaaRecord(this, "temperature-aaaa-record", {
-      zone: hostedZone,
-      target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
-    })
 
     const subdomain = new DomainName(this, "temperature-api-subdomain", {
       domainName: `api.${domainName}`,
@@ -224,6 +188,12 @@ export class InfrastructureStack extends Stack {
       endpointType: EndpointType.REGIONAL,
       securityPolicy: SecurityPolicy.TLS_1_2,
     })
+
+    // new CnameRecord(this, "temperature-vercel-hosting", {
+    //   zone: hostedZone,
+    //   recordName: domainName,
+    //   target: ''
+    // })
 
     new ARecord(this, "temperature-api-a-record", {
       zone: hostedZone,
@@ -233,18 +203,6 @@ export class InfrastructureStack extends Stack {
 
     subdomain.addApiMapping(readGateway.deploymentStage, { basePath: "app" })
     subdomain.addApiMapping(writeGateway.deploymentStage, { basePath: "arduino" })
-
-    // Deploy files to S3 bucket
-    new BucketDeployment(this, "temperature-app-assets-deployment", {
-      destinationBucket: assetsBucket,
-      distribution,
-      prune: true,
-      sources: [Source.asset("../app/public")],
-      cacheControl: [
-        CacheControl.maxAge(Duration.days(365)),
-        CacheControl.sMaxAge(Duration.days(365)),
-      ],
-    })
 
     // Output API URL
     new CfnOutput(this, "temperature-outputs-hosted-zone", {

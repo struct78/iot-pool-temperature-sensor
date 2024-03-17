@@ -1,3 +1,4 @@
+"use client"
 import React, { type FC, useCallback, useEffect, useState, useRef } from "react"
 
 type AnimatedNumberProps = {
