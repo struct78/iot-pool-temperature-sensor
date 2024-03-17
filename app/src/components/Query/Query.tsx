@@ -58,6 +58,7 @@ export const Query = ({
   async function fetchTemperature(abortSignal: AbortSignal) {
     try {
       const res = await fetch(`/api`, {
+        cache: "no-cache",
         signal: abortSignal,
       })
       const { date, temperature } = await res.json() as unknown as QueryProps
