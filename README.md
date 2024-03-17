@@ -25,8 +25,7 @@ The first step is to clone this repository, and update `config.json` with the do
 The platform is built on AWS, which collects temperature readings in a database and serves the web app. The CDK project includes:
 
 - Route 53
-- Cloudfront
-- S3
+- Vercel
 - API Gateway w/ Lambda integrations (including API key for the write endpoint)
 - RDS w/ MySQL
 - Multi-AZ VPC
@@ -60,7 +59,7 @@ npm run destroy
 ```
 
 ## App
-The web app is a simple Gatsby site which pulls the latest temperature reading from the API Gateway.
+The web app is a simple Next.js site which pulls the latest temperature reading from the API Gateway.
 
 To install dependencies:
 
