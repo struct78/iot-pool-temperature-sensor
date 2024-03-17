@@ -7,7 +7,7 @@ type TemperatureHistory = {
   temperature: number;
 }
 
-export const getTemperature = async () => {
+const getTemperature = async () => {
   const res = await fetch(`https://api.${config.domainName}/app/read`);
   return res.json() as unknown as TemperatureHistory;
 }

@@ -2,16 +2,12 @@ import { TypeScriptCode } from "@mrgrain/cdk-esbuild"
 import { CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from "aws-cdk-lib"
 import { ApiKey, ApiKeySourceType, CfnStage, Cors, DomainName, EndpointType, LambdaIntegration, RestApi, SecurityPolicy } from "aws-cdk-lib/aws-apigateway"
 import { Certificate, CertificateValidation } from "aws-cdk-lib/aws-certificatemanager"
-import { AllowedMethods, CachePolicy, Distribution, ViewerProtocolPolicy } from "aws-cdk-lib/aws-cloudfront"
-import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins"
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb"
 import { Effect, PolicyStatement, ServicePrincipal } from "aws-cdk-lib/aws-iam"
 import { Function, Runtime } from "aws-cdk-lib/aws-lambda"
 import { LogGroup } from "aws-cdk-lib/aws-logs"
-import { ARecord, AaaaRecord, CnameRecord, PublicHostedZone, RecordTarget } from "aws-cdk-lib/aws-route53"
-import { ApiGatewayDomain, CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets"
-import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3"
-import { BucketDeployment, CacheControl, Source } from "aws-cdk-lib/aws-s3-deployment"
+import { ARecord, CnameRecord, PublicHostedZone, RecordTarget } from "aws-cdk-lib/aws-route53"
+import { ApiGatewayDomain } from "aws-cdk-lib/aws-route53-targets"
 import { Secret } from "aws-cdk-lib/aws-secretsmanager"
 import { Construct } from "constructs"
 import config from "../../config.json"
@@ -189,11 +185,16 @@ export class InfrastructureStack extends Stack {
       securityPolicy: SecurityPolicy.TLS_1_2,
     })
 
-    // new CnameRecord(this, "temperature-vercel-hosting", {
-    //   zone: hostedZone,
-    //   recordName: domainName,
-    //   target: ''
-    // })
+    new ARecord(this, "temperature-vercel-a-record", {
+      zone: hostedZone,
+      target: RecordTarget.fromIpAddresses("76.76.21.21"),
+    })
+
+    new CnameRecord(this, "temperature-vercel-cname", {
+      zone: hostedZone,
+      recordName: "www",
+      domainName: "cname.vercel-dns.com"
+    })
 
     new ARecord(this, "temperature-api-a-record", {
       zone: hostedZone,
