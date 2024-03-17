@@ -4,7 +4,6 @@ node_modules
 
 # app
 app/.cache/
-app/public
 
 # infrastructure
 infrastructure/.cdk.staging
