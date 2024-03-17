@@ -10,6 +10,7 @@
     "isolatedModules": true,
     /* Strictness */
     "strict": true,
+    "noImplicitAny": false,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
     /* Bundled projects */
@@ -43,7 +44,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "build/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
