@@ -9,6 +9,7 @@ export default {
       black: "#000",
       blue: "#0096FF",
       orange: "#FFAC1C",
+      purple: "#800080",
       green: "#50C878",
     },
     fontSize: {

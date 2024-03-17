@@ -1,10 +1,10 @@
 "use client"
+import { formatDistance } from "date-fns";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { BiLogoGithub as GithubLogo } from "react-icons/bi";
-import { formatDistance } from "date-fns"
-import { useEffect, useRef, useState } from "react"
-import { AnimatedNumber } from "../AnimatedNumber/AnimatedNumber"
-import Link from "next/link"
-import config from "../../../../config.json"
+import config from "../../../../config.json";
+import { AnimatedNumber } from "../AnimatedNumber/AnimatedNumber";
 
 type QueryProps = {
   date: number
@@ -12,17 +12,19 @@ type QueryProps = {
 }
 
 const styles = {
-  unknown: "transition-colors duration-500 bg-black",
-  cold: "transition-colors duration-500 bg-blue",
-  warm: "transition-colors duration-500 bg-orange",
-  perfect: "transition-colors duration-500 bg-green",
+  unknown: "bg-black",
+  cold: "bg-blue",
+  okay: "bg-purple",
+  warm: "bg-orange",
+  perfect: "bg-green",
 }
 
 const emojis = {
   unknown: "😕",
   cold: "🥶",
-  warm: "🤷",
-  perfect: "👌",
+  okay: "🤷",
+  warm: "👌",
+  perfect: "🌴",
 }
 
 const getKeyFromTemperature = (temperature?: number) => {
@@ -34,7 +36,11 @@ const getKeyFromTemperature = (temperature?: number) => {
     return "cold"
   }
 
-  if (temperature < 26) {
+  if (temperature < 25) {
+    return "okay"
+  }
+
+  if (temperature < 28) {
     return "warm"
   }
 
@@ -90,7 +96,7 @@ export const Query = ({
 
   return (
     <main
-      className={`flex h-screen w-screen flex-col items-center justify-center text-white ${styles[feel]}`}
+      className={`flex h-screen w-screen flex-col items-center justify-center text-white transition-colors duration-500 ${styles[feel]}`}
     >
       <h1 className="leading-none text-md font-extralight sm:text-lg lg:text-xl">
         <AnimatedNumber
