@@ -25,13 +25,13 @@ The first step is to clone this repository, and update `config.json` with the do
 The platform is built on AWS, which collects temperature readings in a database and serves the web app. The CDK project includes:
 
 - Route 53
-- Vercel
 - API Gateway w/ Lambda integrations (including API key for the write endpoint)
-- RDS w/ MySQL
-- Multi-AZ VPC
+- DynamoDB
+
+The web app is deployed using Vercel.
 
 ### Estimated Cost
-The deployed AWS infrastructure, depending on your region(s), will cost about $30-45 per month.
+The deployed AWS infrastructure, depending on your region(s) and usage, will cost about $1-2 per month.
 
 ### How to deploy & destroy
 
